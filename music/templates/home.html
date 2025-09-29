@@ -1,0 +1,12 @@
+<h2>🎶 All Songs</h2>
+{% for song in songs %}
+  <div>
+    <img src="{{ song.cover_image.url }}" width="100"><br>
+    <strong>{{ song.title }}</strong> - {{ song.artist }}<br>
+    <audio controls>
+      <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+    </audio><br>
+    <a href="{% url 'add_favorite' song.id %}">❤️ Add to Favorites</a>
+  </div>
+  <hr>
+{% endfor %}

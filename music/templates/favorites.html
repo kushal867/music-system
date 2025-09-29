@@ -1,0 +1,10 @@
+<h2>❤️ My Favorite Songs</h2>
+{% for fav in favorites %}
+  <div>
+    <strong>{{ fav.song.title }}</strong> - {{ fav.song.artist }}<br>
+    <audio controls>
+      <source src="{{ fav.song.audio_file.url }}" type="audio/mpeg">
+    </audio>
+  </div>
+  <hr>
+{% endfor %}
