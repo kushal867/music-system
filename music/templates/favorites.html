@@ -1,10 +1,31 @@
-<h2>❤️ My Favorite Songs</h2>
-{% for fav in favorites %}
-  <div>
-    <strong>{{ fav.song.title }}</strong> - {{ fav.song.artist }}<br>
-    <audio controls>
-      <source src="{{ fav.song.audio_file.url }}" type="audio/mpeg">
-    </audio>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">❤️ My Favorite Songs</h2>
+
+{% if favorites %}
+  <div class="row">
+    {% for fav in favorites %}
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+          {% if fav.song.cover_image %}
+            <img src="{{ fav.song.cover_image.url }}" class="card-img-top" alt="{{ fav.song.title }}">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ fav.song.title }}</h5>
+            <p class="card-text">{{ fav.song.artist }}</p>
+            
+            <audio controls class="w-100">
+              <source src="{{ fav.song.audio_file.url }}" type="audio/mpeg">
+            </audio>
+
+            <a href="{% url 'remove_favorite' fav.song.id %}" class="btn btn-danger btn-sm mt-2">❌ Remove</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
   </div>
-  <hr>
-{% endfor %}
+{% else %}
+  <div class="alert alert-info">No favorites yet. Go add some 🎶</div>
+{% endif %}
+{% endblock %}
