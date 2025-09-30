@@ -1,12 +1,31 @@
-<h2>🎶 All Songs</h2>
-{% for song in songs %}
-  <div>
-    <img src="{{ song.cover_image.url }}" width="100"><br>
-    <strong>{{ song.title }}</strong> - {{ song.artist }}<br>
-    <audio controls>
-      <source src="{{ song.audio_file.url }}" type="audio/mpeg">
-    </audio><br>
-    <a href="{% url 'add_favorite' song.id %}">❤️ Add to Favorites</a>
-  </div>
-  <hr>
-{% endfor %}
+{% extends 'base.html' %}
+
+{% block content %}
+<h2 class="mb-4">🎶 All Songs</h2>
+<div class="row">
+  {% for song in songs %}
+    <div class="col-md-4 mb-4">
+      <div class="card shadow-sm">
+        {% if song.cover_image %}
+          <img src="{{ song.cover_image.url }}" class="card-img-top" alt="{{ song.title }}">
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ song.title }}</h5>
+          <p class="card-text"><strong>Artist:</strong> {{ song.artist }}</p>
+          <p class="card-text"><small class="text-muted">{{ song.genre }}</small></p>
+
+          <audio controls class="w-100">
+            <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+          </audio>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'add_favorite' song.id %}" class="btn btn-outline-danger btn-sm mt-2">❤️ Add to Favorites</a>
+          {% else %}
+            <p class="text-muted mt-2">Login to add to favorites</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
